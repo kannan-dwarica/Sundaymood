@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING = true
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: placeholder_username
+      POSTGRES_PASSWORD: placeholder_password
+      POSTGRES_DB: placeholder_database
+    ports:
+      - "5432:5432"
