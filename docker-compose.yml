@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -7,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-    - ./my_backend/.env
+    - ./backend/.env
     volumes:
       - ./backend:/app
     depends_on:
