@@ -79,7 +79,7 @@ DATABASES = {
         "NAME": "placeholder_database",
         "USER": "placeholder_username",
         "PASSWORD": "placeholder_password",
-        "HOST": "localhost",
+        "HOST": "db",
         "PORT": "5432",
     }
 }
