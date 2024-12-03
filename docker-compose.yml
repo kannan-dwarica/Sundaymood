@@ -29,5 +29,7 @@ services:
       POSTGRES_USER: placeholder_username
       POSTGRES_PASSWORD: placeholder_password
       POSTGRES_DB: placeholder_database
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
