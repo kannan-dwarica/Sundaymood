@@ -9,7 +9,8 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build:
@@ -33,6 +34,14 @@ services:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+    # Added health check to ensure PostgreSQL is ready before backend starts.
+     # This helps prevent connection errors when Django tries to connect too early.
+      test: ["CMD-SHELL", "pg_isready -U placeholder_username"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
 volumes:
   pgdata:
