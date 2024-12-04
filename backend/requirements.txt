@@ -18,6 +18,7 @@ platformdirs==4.3.6
 psycopg2-binary==2.9.10
 pycodestyle==2.12.1
 pyflakes==3.2.0
+python-dotenv==1.0.1
 PyYAML==6.0.2
 regex==2024.11.6
 six==1.16.0

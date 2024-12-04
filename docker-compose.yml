@@ -9,7 +9,8 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     build:
@@ -22,17 +23,26 @@ services:
     stdin_open: true
     environment:
       - CHOKIDAR_USEPOLLING = true
+      - VITE_HOST=0.0.0.0
 
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: placeholder_username
-      POSTGRES_PASSWORD: placeholder_password
-      POSTGRES_DB: placeholder_database
+      POSTGRES_USER: sundaymood_username
+      POSTGRES_PASSWORD: sundaymood_password
+      POSTGRES_DB: sundaymood_database
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+    # Added health check to ensure PostgreSQL is ready before backend starts.
+     # This helps prevent connection errors when Django tries to connect too early.
+      test: ["CMD-SHELL", "pg_isready -U sundaymood_username -d sundaymood_database"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 
 volumes:
   pgdata:
