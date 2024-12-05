@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 
 # Load environment variables from a .env file if needed
@@ -31,7 +32,7 @@ SECRET_KEY = "django-insecure-*u4y=0ofyppicgd+)+$hxobscu@z2a(0yc69l-9#08&r@k9q**
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["sundaymood.herokuapp.com"]
 
 
 # Application definition
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -79,6 +81,7 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -89,6 +92,8 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
+
+DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
 # Password validation
@@ -125,7 +130,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = "/static/"
+
+# WhiteNoise settings (optional but recommended)
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

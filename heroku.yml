@@ -1,0 +1,12 @@
+setup:
+  addons:
+    - plan: heroku-postgresql:essential-0
+      as: DATABASE
+
+build:
+  docker:
+    backend: ./backend
+    frontend: ./frontend
+
+run:
+  web: docker build -t app . && docker-compose up
