@@ -9,4 +9,4 @@ build:
     frontend: ./frontend
 
 run:
-  web: docker build -t app . && docker-compose up
+  web: docker build -t app . && docker compose up
