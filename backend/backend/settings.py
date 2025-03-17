@@ -62,7 +62,7 @@ ROOT_URLCONF = "backend.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "staticfiles" / "frontend"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,18 +83,13 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB", "sundaymood_database"),
-        "USER": os.getenv("POSTGRES_USER", "sundaymood_username"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD", "sundaymood_password"),
-        "HOST": os.getenv("DB_HOST", "db"),
-        "PORT": os.getenv("DB_PORT", "5432"),
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL", "postgresql://localhost/sundaymood_database"),
+        conn_max_age=600,
+        ssl_require=True,
+        ssl_cert_reqs=False,  # Required for Neon
+    )
 }
-
-DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -135,6 +130,10 @@ STATIC_URL = "/static/"
 
 # WhiteNoise settings (optional but recommended)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles" / "frontend",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
