@@ -18,7 +18,7 @@ COPY --from=frontend-builder /build/dist /app/staticfiles/frontend
 
 # Copy backend files
 COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 # Copy the rest of the backend
 COPY backend/ .
@@ -26,5 +26,5 @@ COPY backend/ .
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Start gunicorn
-CMD gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+# Start gunicorn (using full path)
+CMD ["/usr/local/bin/gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:$PORT"]
