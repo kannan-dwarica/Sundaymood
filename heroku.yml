@@ -1,11 +1,7 @@
 build:
   docker:
-    web:
-      dockerfile: backend/Dockerfile
-      context: .
-    worker:
-      dockerfile: backend/Dockerfile
-      context: .
+    web: Dockerfile
+    worker: Dockerfile
 
 run:
   web: gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT

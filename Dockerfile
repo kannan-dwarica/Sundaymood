@@ -1,9 +1,9 @@
 FROM node:18 AS frontend-builder
 WORKDIR /build
 # Copy frontend files
-COPY ../frontend/package*.json ./
+COPY frontend/package*.json ./
 RUN npm install
-COPY ../frontend/ ./
+COPY frontend/ ./
 RUN npm run build
 
 FROM python:3.10
@@ -17,11 +17,11 @@ WORKDIR /app
 COPY --from=frontend-builder /build/dist /app/staticfiles/frontend
 
 # Copy backend files
-COPY requirements.txt .
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the backend
-COPY . .
+COPY backend/ .
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
