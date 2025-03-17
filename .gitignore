@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+venv
+env
+.env
+
+# Build outputs
+dist
+build
+staticfiles
+
+# IDE
+.vscode
+.idea
+
+# System files
+.DS_Store
+*.log
+
+# Local development
+*.sqlite3

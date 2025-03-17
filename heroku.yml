@@ -5,8 +5,9 @@ setup:
 
 build:
   docker:
-    backend: ./backend
-    frontend: ./frontend
+    web: ./backend/Dockerfile
+    worker: ./backend/Dockerfile
 
 run:
-  web: docker build -t app . && docker compose up
+  web: gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
+  worker: celery -A backend worker --loglevel=info
