@@ -26,8 +26,5 @@ COPY backend/ .
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Run migrations
-RUN python manage.py migrate
-
 # Start gunicorn
 CMD gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT
