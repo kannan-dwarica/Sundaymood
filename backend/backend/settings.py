@@ -87,7 +87,6 @@ DATABASES = {
         default=os.getenv("DATABASE_URL", "postgresql://localhost/sundaymood_database"),
         conn_max_age=600,
         ssl_require=True,
-        ssl_cert_reqs=False,  # Required for Neon
     )
 }
 
