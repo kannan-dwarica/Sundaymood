@@ -1,8 +1,9 @@
 FROM node:18 AS frontend-builder
 WORKDIR /build
-COPY ../frontend/package*.json ./
+# Copy frontend files from project root
+COPY frontend/package*.json ./
 RUN npm install
-COPY ../frontend/ ./
+COPY frontend/ ./
 RUN npm run build
 
 FROM python:3.10
@@ -15,12 +16,12 @@ WORKDIR /app
 # Copy frontend build
 COPY --from=frontend-builder /build/dist /app/staticfiles/frontend
 
-# Copy only the requirements file first, to leverage Docker cache
-COPY requirements.txt /app/
+# Copy backend files
+COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application
-COPY . /app/
+# Copy the rest of the backend
+COPY backend/ .
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
